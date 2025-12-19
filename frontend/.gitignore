@@ -13,8 +13,9 @@
 # testing
 /coverage
 
-# video
+# media
 *.mp4
+*.JPG
 
 # next.js
 /.next/
