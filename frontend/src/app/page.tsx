@@ -1,8 +1,37 @@
-import { Header } from "./components/Header";
+"use client";
+import { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation';
 import Image from "next/image";
+
+/* ---------------- Components ---------------- */
+import { Header } from "./components/Header";
 import { InviteCarousel } from "./components/InviteCarousel";
 
+/* ---------------- Services ---------------- */
+import { getInvite } from "./service/api";
+
 export default function Home() {
+  const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
+
+  const params = useSearchParams();
+  const id = params.get('convite');
+
+  useEffect(() => {
+    const fetchInvite = async (invite_id: string) => {
+      console.log(invite_id)
+      try {
+        const fetchedInvite = await getInvite(invite_id);
+        setInvite(fetchedInvite);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (id && typeof id === "string") {
+      fetchInvite(id);
+    }
+  }, [id]);
+
   return (
     <main className="min-h-screen flex flex-col justify-start w-full bg-gray-950 text-white">
       <Header>
@@ -32,7 +61,7 @@ export default function Home() {
       <div className="flex justify-center">
         <div className="relative inline-block overflow-hidden py-4">          
           <h2 className="text-4xl font-parisienne animate-float">
-            Convidado & Família
+            {invite?.family_name}
           </h2>
 
           <div className="absolute inset-0 bg-gray-950 animate-reveal" />
@@ -40,11 +69,9 @@ export default function Home() {
       </div>
 
       <div className="flex center">
-        <InviteCarousel inviteGroup={{
-          family_name: "Henrique & Familia",
-          guests: 2,
-          id: "test"
-        }} />
+        {invite?.id && (
+          <InviteCarousel inviteGroup={invite} />
+        )}
       </div>
     </main>
   );

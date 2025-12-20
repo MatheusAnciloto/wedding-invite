@@ -2,6 +2,7 @@ interface InviteGroup {
   id: string;
   family_name: string;
   guests: number;
+  children: boolean;
 }
 
 interface GuestConfirmation {
