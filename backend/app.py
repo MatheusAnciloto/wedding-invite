@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from database import db
 from routes.invite import invite
+from routes.guest import guest
 
 def create_app():
     app = Flask(__name__)
@@ -14,6 +15,7 @@ def create_app():
     db.init_app(app)
 
     app.register_blueprint(invite, url_prefix='/api')
+    app.register_blueprint(guest, url_prefix='/api')
 
     with app.app_context():
         db.create_all()

@@ -33,3 +33,9 @@ class Guest(db.Model):
     first_name = db.Column(db.String(80), nullable=False)
     last_name = db.Column(db.String(80), nullable=False)
     age_range = db.Column(db.Enum(BuffetAgeGroups), nullable=False, default=BuffetAgeGroups.FULL_PRICE)
+
+    invite_id = db.Column(db.String(6), db.ForeignKey('invites.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Guest {self.invite_id} | {self.id} - {self.first_name}>'
+

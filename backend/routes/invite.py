@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
 from pydantic import ValidationError
 from database import db
-from models import Invite
-from schemas import InviteCreate, InviteUpdate, InviteResponse
+from models import Invite, Guest
+from schemas import InviteCreate, InviteUpdate, InviteResponse, GuestResponse
 
 invite = Blueprint('invite', __name__)
 
@@ -58,9 +58,28 @@ def update_invite(invite_id):
 
 @invite.route('/invites/<invite_id>', methods=['GET'])
 def get_invite(invite_id):
-    invite = Invite.query.get(invite_id)
-    if not invite:
-        return jsonify({"error": "Invite not found"}), 404
+    try:
+        invite = Invite.query.get(invite_id)
 
-    response_data = InviteResponse.model_validate(invite).model_dump()
-    return jsonify(response_data), 200
+        if not invite:
+            return jsonify({"error": "Invite not found"}), 404
+
+        response_data = InviteResponse.model_validate(invite).model_dump()
+
+        guests = Guest.query.where(Guest.invite_id == invite_id).all()
+
+        guests_list = [GuestResponse.model_validate(guest).model_dump(mode='json') for guest in guests]
+        print(guests_list)
+
+        return jsonify({
+            **response_data,
+            "confirmed_guests": guests_list 
+        }), 200
+    except ValidationError as e:
+        return jsonify({"errors": e.errors()}), 400
+    except Exception as e:
+        return jsonify({"message": "Internal Server Error", "error": f"{e}"}), 500
+
+
+
+
