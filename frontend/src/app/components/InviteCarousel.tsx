@@ -10,19 +10,22 @@ interface InviteCarouselProps {
 export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
   const [selectedGuestIndex, setSelectedGuestIndex] = useState<number | null>(null);
 
-  // Criamos um array baseado no número de convidados (ex: 4 convidados = 4 cards)
-  const guestCards = Array.from({ length: inviteGroup.guests }, (_, i) => i);
+  const guestCards = Array.from({ length: inviteGroup.guests }, (_, i) => ({
+    index: i,
+    data: inviteGroup.confirmed_guests?.[i]
+  }));
+
+  const isSingleGuest = inviteGroup.guests === 1;
 
   return (
     <div className="w-full py-10">
-      <div className="flex gap-6 overflow-x-auto px-10 snap-x snap-mandatory no-scrollbar pb-8 justify-start md:justify-start">
-        {guestCards.map((index) => (
+      <div className={`flex gap-6 overflow-x-auto px-10 snap-x snap-mandatory no-scrollbar pb-8 ${isSingleGuest ? 'justify-center' : 'justify-start'}`}>
+        {guestCards.map(({ index, data }) => (
           <button
             key={`${inviteGroup.id}-${index}`}
             onClick={() => setSelectedGuestIndex(index)}
-            className="group min-w-70 md:min-w-87 aspect-3/2 snap-center relative bg-var(--color-forest) rounded-sm shadow-2xl transition-all hover:scale-105 active:scale-95 border border-(--color-gold)/30 overflow-hidden"
+            className="group min-w-70 md:min-w-87 aspect-3/2 snap-center relative bg-var(--color-forest) rounded-sm shadow-2xl transition-all hover:scale-105 active:scale-95 border border-gold/30 overflow-hidden"
           >
-            {/* Background Texture */}
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
             
             <div className="z-10 flex flex-col items-center text-center p-6">
@@ -36,8 +39,8 @@ export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
                 Convidado {index + 1} de {inviteGroup.guests}
               </p>
               
-              <div className="mt-6 py-2 px-4 border border-(--color-gold)/20 rounded-full text-(--color-gold) text-[10px] uppercase tracking-tighter group-hover:bg-(--color-gold) group-hover:text-forest transition-colors">
-                Confirmar este convidado
+              <div className="mt-6 py-2 px-4 border border-gold/20 rounded-full text-(--color-gold) text-[10px] uppercase tracking-tighter group-hover:bg-(--color-gold) group-hover:text-forest transition-colors">
+                {isSingleGuest ? 'Confirmar presença' : 'Confirmar convidado'}
               </div>
             </div>
           </button>
@@ -45,8 +48,8 @@ export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
       </div>
 
       {selectedGuestIndex !== null && (
-        <ConfirmationModal 
-          familyId={inviteGroup.id}
+        <ConfirmationModal
+          invite={inviteGroup}
           guestNumber={selectedGuestIndex + 1}
           onClose={() => setSelectedGuestIndex(null)} 
         />
