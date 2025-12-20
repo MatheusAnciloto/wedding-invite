@@ -15,7 +15,6 @@
 
 # media
 *.mp4
-*.JPG
 
 # next.js
 /.next/

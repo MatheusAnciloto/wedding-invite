@@ -24,6 +24,7 @@ export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
           <button
             key={`${inviteGroup.id}-${index}`}
             onClick={() => setSelectedGuestIndex(index)}
+            disabled={!!data?.id}
             className="group min-w-70 md:min-w-87 aspect-3/2 snap-center relative bg-var(--color-forest) rounded-sm shadow-2xl transition-all hover:scale-105 active:scale-95 border border-gold/30 overflow-hidden"
           >
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
@@ -33,15 +34,21 @@ export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
                 Convite Individual
               </span>
               <h3 className="text-2xl font-parisienne text-(--color-eggshell)">
-                {inviteGroup.family_name}
+                {!!data?.id ? `${data.first_name} ${data.last_name}` : `Convidado ${index + 1}`}
               </h3>
               <p className="text-gold/40 text-[10px] mt-4 font-sans uppercase tracking-widest">
                 Convidado {index + 1} de {inviteGroup.guests}
               </p>
               
-              <div className="mt-6 py-2 px-4 border border-gold/20 rounded-full text-(--color-gold) text-[10px] uppercase tracking-tighter group-hover:bg-(--color-gold) group-hover:text-forest transition-colors">
-                {isSingleGuest ? 'Confirmar presença' : 'Confirmar convidado'}
-              </div>
+              {!!data?.id ? (
+                <div className="mt-6 py-2 px-4 text-(--color-gold) text-[14px] uppercase tracking-tighter group-hover:bg-(--color-gold) group-hover:text-forest transition-colors">  
+                  Presença confirmada
+                </div>
+              ) : (
+                <div className="mt-6 py-2 px-4 border border-gold/20 rounded-full text-(--color-gold) text-[10px] uppercase tracking-tighter group-hover:bg-(--color-gold) group-hover:text-forest transition-colors">
+                  {isSingleGuest ? 'Confirmar presença' : 'Confirmar convidado'}
+                </div>
+              )}
             </div>
           </button>
         ))}
@@ -56,4 +63,4 @@ export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
       )}
     </div>
   );
-}
+};

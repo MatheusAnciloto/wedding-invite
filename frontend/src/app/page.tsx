@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from 'next/navigation';
 import Image from "next/image";
 
@@ -10,15 +10,15 @@ import { InviteCarousel } from "./components/InviteCarousel";
 /* ---------------- Services ---------------- */
 import { getInvite } from "./service/api";
 
-export default function Home() {
-  const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
+
+function InviteContent() {
+const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
 
   const params = useSearchParams();
   const id = params.get('convite');
 
   useEffect(() => {
     const fetchInvite = async (invite_id: string) => {
-      console.log(invite_id)
       try {
         const fetchedInvite = await getInvite(invite_id);
         setInvite(fetchedInvite);
@@ -75,4 +75,13 @@ export default function Home() {
       </div>
     </main>
   );
-}
+};
+
+
+export default function Home() {
+  return (
+    <Suspense>
+      <InviteContent />
+    </Suspense>
+  );
+};
