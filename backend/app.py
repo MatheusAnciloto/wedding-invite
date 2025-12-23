@@ -23,8 +23,8 @@ def create_app():
 
     db.init_app(app)
 
-    app.register_blueprint(invite, url_prefix='/api')
-    app.register_blueprint(guest, url_prefix='/api')
+    app.register_blueprint(invite)
+    app.register_blueprint(guest)
 
     with app.app_context():
         db.create_all()
