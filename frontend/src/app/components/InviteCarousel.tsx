@@ -5,9 +5,10 @@ import { ConfirmationModal } from "./ConfirmationModal";
 
 interface InviteCarouselProps {
   inviteGroup: InviteGroup;
+  setInvite: (invite: InviteGroup) => void;
 }
 
-export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
+export function InviteCarousel({ inviteGroup, setInvite }: InviteCarouselProps) {
   const [selectedGuestIndex, setSelectedGuestIndex] = useState<number | null>(null);
 
   const guestCards = Array.from({ length: inviteGroup.guests }, (_, i) => ({
@@ -19,13 +20,13 @@ export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
 
   return (
     <div className="w-full py-10">
-      <div className={`flex gap-6 overflow-x-auto px-10 snap-x snap-mandatory no-scrollbar pb-8 ${isSingleGuest ? 'justify-center' : 'justify-start'}`}>
+      <div className={`flex gap-6 overflow-x-auto px-10 snap-x snap-mandatory no-scrollbar pb-8 ${isSingleGuest ? 'justify-center' : 'justify-start'} ${inviteGroup?.guests < 4 && 'md:justify-center'}`}>
         {guestCards.map(({ index, data }) => (
           <button
             key={`${inviteGroup.id}-${index}`}
             onClick={() => setSelectedGuestIndex(index)}
             disabled={!!data?.id}
-            className="group min-w-70 md:min-w-87 aspect-3/2 snap-center relative bg-var(--color-forest) rounded-sm shadow-2xl transition-all hover:scale-105 active:scale-95 border border-gold/30 overflow-hidden"
+            className="group min-w-70 md:min-w-87 aspect-3/2 snap-center relative bg-var(--color-forest) rounded-sm shadow-2xl transition-all active:scale-95 border border-gold/30 overflow-hidden hover:cursor-pointer"
           >
             <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]" />
             
@@ -41,7 +42,7 @@ export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
               </p>
               
               {!!data?.id ? (
-                <div className="mt-6 py-2 px-4 text-(--color-gold) text-[14px] uppercase tracking-tighter group-hover:bg-(--color-gold) group-hover:text-forest transition-colors">  
+                <div className="mt-6 py-2 px-4 text-(--color-gold) text-[14px] uppercase tracking-tighter">  
                   Presença confirmada
                 </div>
               ) : (
@@ -57,8 +58,9 @@ export function InviteCarousel({ inviteGroup }: InviteCarouselProps) {
       {selectedGuestIndex !== null && (
         <ConfirmationModal
           invite={inviteGroup}
+          setInvite={setInvite}
           guestNumber={selectedGuestIndex + 1}
-          onClose={() => setSelectedGuestIndex(null)} 
+          onClose={() => setSelectedGuestIndex(null)}
         />
       )}
     </div>

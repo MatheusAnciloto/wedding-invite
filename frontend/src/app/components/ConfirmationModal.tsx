@@ -1,13 +1,15 @@
-import { useState } from "react";
-import { confirmGuest } from "../service/api";
+import React, { useState } from "react";
+import { confirmGuest, getInvite } from "../service/api";
+import { useSearchParams } from "next/navigation";
 
 interface ConfirmationModalProps {
   invite: InviteGroup;
   guestNumber: number;
   onClose: () => void;
+  setInvite: (invite: InviteGroup) => void;
   
 }
-export const ConfirmationModal = ({ invite, guestNumber, onClose }: ConfirmationModalProps) => {
+export const ConfirmationModal = ({ invite, guestNumber, onClose, setInvite }: ConfirmationModalProps) => {
   const isSingleGuest = invite.guests === 1;
 
   const [isLoading, setIsLoading] = useState(false);
@@ -19,12 +21,21 @@ export const ConfirmationModal = ({ invite, guestNumber, onClose }: Confirmation
     invite_id: invite.id
   });
 
+  const params = useSearchParams();
+  const id = params.get('convite');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
       setIsLoading(true);
       await confirmGuest(formData);
+
+
+      const fetchedInvite = await getInvite(String(id));
+      if (fetchedInvite?.id) {
+        setInvite(fetchedInvite);
+      }
 
       onClose();
     } catch (err) {
@@ -93,7 +104,8 @@ export const ConfirmationModal = ({ invite, guestNumber, onClose }: Confirmation
           )}
 
           <div className="flex flex-col gap-3 pt-6">
-            <button type="submit" disabled={isLoading} className={`w-full bg-forest text-eggshell py-4 text-xs uppercase tracking-widest font-bold hover:brightness-125 transition-all disabled:border-gray-200 ${isLoading && ''}`}>
+            <button type="submit" disabled={isLoading} className={`w-full bg-forest text-eggshell py-4 text-xs uppercase tracking-widest font-bold hover:brightness-150 hover:cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed disabled:opacity-75
+    transition duration-150 ease-in-out`}>
               Confirmar Presença
             </button>
             <button onClick={onClose} type="button" className="text-[10px] uppercase tracking-widest opacity-80 hover:opacity-100">

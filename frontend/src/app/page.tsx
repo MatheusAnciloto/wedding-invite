@@ -45,10 +45,11 @@ const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
           <div className="flex justify-center my-10">
             <div className="w-72 h-72 relative rounded-full overflow-hidden border-4 border-white">
               <Image
-                src="/faces.JPG"
+                src="https://res.cloudinary.com/dzuegonso/image/upload/v1767667279/faces_kwpyyj.jpg"
                 alt="Profile picture"
                 fill
                 className="object-cover scale-135 object-[55%_40%]"
+                priority
               />
             </div>
           </div>
@@ -70,7 +71,7 @@ const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
 
       <div className="flex center">
         {invite?.id && (
-          <InviteCarousel inviteGroup={invite} />
+          <InviteCarousel inviteGroup={invite} setInvite={setInvite} />
         )}
       </div>
     </main>

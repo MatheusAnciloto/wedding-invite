@@ -5,7 +5,7 @@ export const Header: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <header className="relative w-full">
       <Image
-        src="/walk.JPG"
+        src="https://res.cloudinary.com/dzuegonso/image/upload/v1767667279/walk_boplwe.jpg"
         alt="Header background"
         width={1920}
         height={1080}
