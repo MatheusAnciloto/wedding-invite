@@ -20,7 +20,7 @@ export function InviteCarousel({ inviteGroup, setInvite }: InviteCarouselProps) 
 
   return (
     <div className="w-full py-10">
-      <div className={`flex gap-6 overflow-x-auto px-10 snap-x snap-mandatory no-scrollbar pb-8 ${isSingleGuest ? 'justify-center' : 'justify-start'} ${inviteGroup?.guests < 4 && 'md:justify-center'}`}>
+      <div className={`flex gap-6 overflow-x-auto px-10 snap-x snap-mandatory no-scrollbar pb-4 ${isSingleGuest ? 'justify-center' : 'justify-start'} ${inviteGroup?.guests < 4 && 'md:justify-center'}`}>
         {guestCards.map(({ index, data }) => (
           <button
             key={`${inviteGroup.id}-${index}`}
@@ -54,6 +54,11 @@ export function InviteCarousel({ inviteGroup, setInvite }: InviteCarouselProps) 
           </button>
         ))}
       </div>
+      {!isSingleGuest && (
+        <p className="text-center text-white/40 text-xs animate-pulse md:hidden">
+          Deslize para ver mais →
+        </p>
+      )}
 
       {selectedGuestIndex !== null && (
         <ConfirmationModal

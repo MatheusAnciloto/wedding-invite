@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Header } from "./components/Header";
 import { InviteCarousel } from "./components/InviteCarousel";
 import { Loader } from "./components/Loader";
+import { Details } from "./components/Details";
 
 /* ---------------- Services ---------------- */
 import { getInvite } from "./service/api";
@@ -79,6 +80,8 @@ function InviteContent() {
           <InviteCarousel inviteGroup={invite} setInvite={setInvite} />
         )}
       </div>
+
+      <Details />
     </main>
   );
 };

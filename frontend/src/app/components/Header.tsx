@@ -9,7 +9,7 @@ export const Header: React.FC<PropsWithChildren> = ({ children }) => {
         alt="Header background"
         width={1920}
         height={1080}
-        className="w-full h-auto sm:h-150 object-cover object-[center_25%]"
+        className="w-full h-150 object-cover object-[center_25%]"
         priority
       />
       <div className="absolute inset-0 backdrop-blur-[2px] bg-black/50 bg-linear-to-b from-transparent via-transparent to-gray-950" />
