@@ -6,13 +6,15 @@ import Image from "next/image";
 /* ---------------- Components ---------------- */
 import { Header } from "./components/Header";
 import { InviteCarousel } from "./components/InviteCarousel";
+import { Loader } from "./components/Loader";
 
 /* ---------------- Services ---------------- */
 import { getInvite } from "./service/api";
 
 
 function InviteContent() {
-const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
+  const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
+  const [loading, setLoading] = useState(true);
 
   const params = useSearchParams();
   const id = params.get('convite');
@@ -24,6 +26,8 @@ const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
         setInvite(fetchedInvite);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,6 +38,7 @@ const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
 
   return (
     <main className="min-h-screen flex flex-col justify-start w-full bg-gray-950 text-white">
+      {loading && <Loader message="Aguarde..."/>}
       <Header>
         <div className="flex-col py-12 px-4">
           <div className="flex justify-center items-center">
@@ -45,7 +50,7 @@ const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
           <div className="flex justify-center my-10">
             <div className="w-72 h-72 relative rounded-full overflow-hidden border-4 border-white">
               <Image
-                src="https://res.cloudinary.com/dzuegonso/image/upload/v1767667279/faces_kwpyyj.jpg"
+                src="https://res.cloudinary.com/dzuegonso/image/upload/f_auto,q_auto/v1767667279/faces_kwpyyj.jpg"
                 alt="Profile picture"
                 fill
                 className="object-cover scale-135 object-[55%_40%]"
@@ -61,11 +66,11 @@ const [invite, setInvite] = useState<InviteGroup | undefined>(undefined);
 
       <div className="flex justify-center">
         <div className="relative inline-block overflow-hidden py-4">          
-          <h2 className="text-4xl font-parisienne animate-float">
+          <h2 className={`text-4xl font-parisienne ${!loading && 'animate-float'}`}>
             {invite?.family_name}
           </h2>
 
-          <div className="absolute inset-0 bg-gray-950 animate-reveal" />
+          <div className={`absolute inset-0 bg-gray-950 ${!loading && 'animate-reveal'}`} />
         </div>
       </div>
 
