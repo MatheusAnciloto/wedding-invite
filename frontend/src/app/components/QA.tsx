@@ -3,16 +3,16 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import { questionsAnswers } from "../constants/questionsAnswers"
 
-export const Details: React.FC = () => {
+export const QA: React.FC = () => {
 	const [activeIndex, setActiveIndex] = useState<number | null>(null);
 	
 	return (
-		<div className="w-full max-w-2xl mx-auto px-6 py-12 space-y-4">
+		<div className="w-full max-w-2xl mx-auto px-6 py-6 space-y-4">
 			{questionsAnswers.map((item, index) => (
         <div key={index} className="border-b border-white/10">
           <button
             onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-            className="w-full py-6 flex justify-between items-center text-left focus:outline-none group"
+            className="w-full py-6 flex justify-between items-center text-left focus:outline-none group cursor-pointer"
           >
             <span className="text-md font-sans font-bold tracking-wide text-white/80 group-hover:text-white transition-colors">
               {item.question}

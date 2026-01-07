@@ -68,6 +68,7 @@ export const ConfirmationModal = ({ invite, guestNumber, onClose, setInvite }: C
               className="w-full bg-transparent border-b border-forest/20 py-1 outline-none focus:border-gold transition-colors"
               onChange={(e) => setFormData({...formData, first_name: e.target.value})}
               value={formData.first_name}
+              minLength={3}
             />
           </div>
 
@@ -78,6 +79,7 @@ export const ConfirmationModal = ({ invite, guestNumber, onClose, setInvite }: C
               className="w-full bg-transparent border-b border-forest/20 py-1 outline-none focus:border-gold transition-colors"
               onChange={(e) => setFormData({...formData, last_name: e.target.value})}
               value={formData.last_name}
+              minLength={3}
             />
           </div>
 

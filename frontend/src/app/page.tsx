@@ -7,7 +7,8 @@ import Image from "next/image";
 import { Header } from "./components/Header";
 import { InviteCarousel } from "./components/InviteCarousel";
 import { Loader } from "./components/Loader";
-import { Details } from "./components/Details";
+import { QA } from "./components/QA";
+import { Info } from "./components/Info";
 
 /* ---------------- Services ---------------- */
 import { getInvite } from "./service/api";
@@ -81,7 +82,9 @@ function InviteContent() {
         )}
       </div>
 
-      <Details />
+      <Info />
+
+      <QA />
     </main>
   );
 };

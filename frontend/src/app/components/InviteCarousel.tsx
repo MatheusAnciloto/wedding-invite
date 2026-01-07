@@ -18,6 +18,8 @@ export function InviteCarousel({ inviteGroup, setInvite }: InviteCarouselProps) 
 
   const isSingleGuest = inviteGroup.guests === 1;
 
+
+
   return (
     <div className="w-full py-10">
       <div className={`flex gap-6 overflow-x-auto px-10 snap-x snap-mandatory no-scrollbar pb-4 ${isSingleGuest ? 'justify-center' : 'justify-start'} ${inviteGroup?.guests < 4 && 'md:justify-center'}`}>
@@ -35,18 +37,18 @@ export function InviteCarousel({ inviteGroup, setInvite }: InviteCarouselProps) 
                 Convite Individual
               </span>
               <h3 className="text-2xl font-parisienne text-(--color-eggshell)">
-                {!!data?.id ? `${data.first_name} ${data.last_name}` : `Convidado ${index + 1}`}
+                {!!data?.id ? `${data.first_name} ${data.last_name}` : isSingleGuest ? inviteGroup.family_name : `Convidado ${index + 1}`}
               </h3>
               <p className="text-gold/40 text-[10px] mt-4 font-sans uppercase tracking-widest">
                 Convidado {index + 1} de {inviteGroup.guests}
               </p>
               
               {!!data?.id ? (
-                <div className="mt-6 py-2 px-4 text-(--color-gold) text-[14px] uppercase tracking-tighter">  
+                <div className="mt-6 py-2 px-4 text-(--color-gold) text-[12px] uppercase tracking-tighter">  
                   Presença confirmada
                 </div>
               ) : (
-                <div className="mt-6 py-2 px-4 border border-gold/20 rounded-full text-(--color-gold) text-[10px] uppercase tracking-tighter group-hover:bg-(--color-gold) group-hover:text-forest transition-colors">
+                <div className="mt-6 py-2 px-4 border border-gold/20 rounded-full text-(--color-gold) text-[12px] uppercase tracking-tighter group-hover:bg-(--color-gold) group-hover:text-forest transition-colors">
                   {isSingleGuest ? 'Confirmar presença' : 'Confirmar convidado'}
                 </div>
               )}

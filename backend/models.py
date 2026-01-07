@@ -38,4 +38,3 @@ class Guest(db.Model):
 
     def __repr__(self):
         return f'<Guest {self.invite_id} | {self.id} - {self.first_name}>'
-
